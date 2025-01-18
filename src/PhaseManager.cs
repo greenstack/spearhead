@@ -4,9 +4,9 @@ namespace Spearhead;
 /// Manages the phases of a battle. This phase manager is implemented
 /// in a round-robin style; that is, an A -> B -> C -> A -> B -> C style.
 /// </summary>
-public abstract class PhaseManagerBase<TBattleContext> : IPhaseManager<TBattleContext>
+public abstract class PhaseManagerBase<TBattleContext, TPhase> : IPhaseManager<TBattleContext, TPhase> where TPhase : IBattlePhase<TPhase, TBattleContext>
 {
-    public abstract IBattlePhase<TBattleContext> CurrentPhase {get; }
+    public abstract TPhase CurrentPhase {get; }
 
     public abstract bool IsBattleOver { get; }
 

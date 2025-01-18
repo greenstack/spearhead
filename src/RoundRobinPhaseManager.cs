@@ -5,22 +5,22 @@ namespace Spearhead;
 /// A -> B -> C -> A -> B -> C, etc.
 /// </summary>
 /// <typeparam name="TBattleContext">The context in which a battle takes place</typeparam>
-public class RoundRobinPhaseManager<TBattleContext> : PhaseManagerBase<TBattleContext>
+public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<TBattleContext, TPhase> where TPhase : IBattlePhase<TPhase, TBattleContext>
 {
-    private readonly IBattlePhase<TBattleContext> _endPhase;
+    private readonly TPhase _endPhase;
 
     bool _startingBattle;
 
     int _currentPhaseIndex = 0;
 
-    readonly IList<IBattlePhase<TBattleContext>> _phaseList;
-    private IBattlePhase<TBattleContext> _currentPhase;
+    readonly IList<TPhase> _phaseList;
+    private TPhase _currentPhase;
 
-    public override IBattlePhase<TBattleContext> CurrentPhase => _currentPhase;
+    public override TPhase CurrentPhase => _currentPhase;
 
-    public override bool IsBattleOver => _currentPhase == _endPhase;
+    public override bool IsBattleOver => _currentPhase.Equals(_endPhase);
 
-    public RoundRobinPhaseManager(IList<IBattlePhase<TBattleContext>> phaseList, IBattlePhase<TBattleContext> startPhase, IBattlePhase<TBattleContext> endPhase)
+    public RoundRobinPhaseManager(IList<TPhase> phaseList, TPhase startPhase, TPhase endPhase)
     {
         _phaseList = phaseList;
         _currentPhase = startPhase;

@@ -4,12 +4,12 @@ namespace Spearhead;
 /// An interface for phase managers in battles.
 /// </summary>
 /// <typeparam name="TBattleContext"></typeparam>
-public interface IPhaseManager<TBattleContext>
+public interface IPhaseManager<TBattleContext, TPhase> where TPhase : IBattlePhase<TPhase, TBattleContext>
 {
     /// <summary>
     /// Retrieves the battle's current phase.
     /// </summary>
-    IBattlePhase<TBattleContext> CurrentPhase { get; }
+    TPhase CurrentPhase { get; }
 
     /// <summary>
     /// Has the battle ended?
