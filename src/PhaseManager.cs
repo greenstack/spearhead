@@ -1,10 +1,11 @@
 namespace Spearhead;
 
 /// <summary>
-/// Manages the phases of a battle. This phase manager is implemented
-/// in a round-robin style; that is, an A -> B -> C -> A -> B -> C style.
+/// Manages the phases of a battle.
 /// </summary>
-public abstract class PhaseManagerBase<TBattleContext, TPhase> : IPhaseManager<TBattleContext, TPhase> where TPhase : IBattlePhase<TPhase, TBattleContext>
+public abstract class PhaseManagerBase<TBattleContext, TPhase, TPhaseManager> : IPhaseManager<TBattleContext, TPhase, TPhaseManager>
+    where TPhase : IBattlePhase<TBattleContext, TPhase, TPhaseManager>
+    where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
 {
     public abstract TPhase CurrentPhase {get; }
 
@@ -12,12 +13,13 @@ public abstract class PhaseManagerBase<TBattleContext, TPhase> : IPhaseManager<T
 
     public abstract void AdvancePhase();
 
-    public void Update(Battle<TBattleContext> battle, double deltaTime)
+    public virtual void Update(Battle<TBattleContext> battle, double deltaTime)
     {
-        CurrentPhase.Update(this, deltaTime);
+        // I don't know why this explicit cast is necessary
+        CurrentPhase.Update((TPhaseManager)this, deltaTime);
     }
 
-    public void Initialize(Battle<TBattleContext> battle)
+    public virtual void Initialize(Battle<TBattleContext> battle)
     {
         // TODO: Hook up to the proper components
     }

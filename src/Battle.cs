@@ -9,7 +9,7 @@ public class Battle<TContext>
     private readonly TContext _context;
     public TContext Context => _context;
 
-    private readonly PhaseManagerBase<TContext> _phaseManager;
+    private readonly IPhaseManager<TContext> _phaseManager;
     private readonly IActionManager _actionManager;
 
     /// <summary>
@@ -18,7 +18,7 @@ public class Battle<TContext>
     /// <param name="context">The context in which this battle takes place.</param>
     /// <param name="actionManager">The action manager responsible for handling your actions.</param>
     /// <param name="phaseManager">The phase manager responsible for handling your phases.</param>
-    public Battle(TContext context, IActionManager actionManager, PhaseManagerBase<TContext> phaseManager)
+    public Battle(TContext context, IActionManager actionManager, IPhaseManager<TContext> phaseManager)
     {
         _context = context;
         _actionManager = actionManager;
@@ -30,7 +30,7 @@ public class Battle<TContext>
     /// </summary>
     /// <param name="context">The context in which this battle is taking place.</param>
     /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public Battle(TContext context, PhaseManagerBase<TContext> phaseManager) : this(context, new ActionManager(), phaseManager) {}
+    public Battle(TContext context, IPhaseManager<TContext> phaseManager) : this(context, new ActionManager(), phaseManager) {}
 
     /// <summary>
     /// Updates the battlefield.<br/><br/>If the action manager isn't processing an action, then the phase manager will be updated instead.
