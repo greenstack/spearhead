@@ -16,6 +16,10 @@ public class RoundRobinPhaseManagerBase<TBattleContext, TPhase, TPhaseManager> :
     int _currentPhaseIndex = 0;
 
     readonly IList<TPhase> _phaseList;
+    /// <summary>
+    /// The phases managed by this phase manager
+    /// </summary>
+    public IReadOnlyList<TPhase> Phases => _phaseList.AsReadOnly();
     private TPhase _currentPhase;
 
     public override TPhase CurrentPhase => _currentPhase;
@@ -25,7 +29,7 @@ public class RoundRobinPhaseManagerBase<TBattleContext, TPhase, TPhaseManager> :
     public RoundRobinPhaseManagerBase(TPhase startPhase, IList<TPhase> phaseList, TPhase endPhase)
     {
         _phaseList = phaseList;
-        _currentPhase = startPhase;
+        _currentPhase = startPhase ?? phaseList[0];
         _endPhase = endPhase;
         _startingBattle = true;
     }
