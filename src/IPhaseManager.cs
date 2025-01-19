@@ -30,9 +30,9 @@ public interface IPhaseManager<TBattleContext>
 /// An interface for phase managers in battles.
 /// </summary>
 /// <typeparam name="TBattleContext"></typeparam>
-public interface IPhaseManager<TBattleContext, TPhase, TPhaseManager> : IPhaseManager<TBattleContext>
-    where TPhase : IBattlePhase<TBattleContext, TPhase, TPhaseManager>
-    where TPhaseManager : IPhaseManager<TBattleContext, TPhase, TPhaseManager>
+public interface IPhaseManager<TBattleContext, TPhase> : IPhaseManager<TBattleContext>
+    where TPhase : IBattlePhase<TBattleContext, TPhase>
+    //where TPhaseManager : IPhaseManager<TBattleContext, TPhase, TPhaseManager>
 {
     /// <summary>
     /// Retrieves the battle's current phase.

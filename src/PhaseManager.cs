@@ -3,9 +3,9 @@ namespace Spearhead;
 /// <summary>
 /// Manages the phases of a battle.
 /// </summary>
-public abstract class PhaseManagerBase<TBattleContext, TPhase, TPhaseManager> : IPhaseManager<TBattleContext, TPhase, TPhaseManager>
-    where TPhase : IBattlePhase<TBattleContext, TPhase, TPhaseManager>
-    where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
+public abstract class PhaseManagerBase<TBattleContext, TPhase> : IPhaseManager<TBattleContext, TPhase>
+    where TPhase : IBattlePhase<TBattleContext, TPhase>
+    //where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
 {
     public abstract TPhase CurrentPhase {get; }
 
@@ -16,7 +16,7 @@ public abstract class PhaseManagerBase<TBattleContext, TPhase, TPhaseManager> : 
     public virtual void Update(Battle<TBattleContext> battle, double deltaTime)
     {
         // I don't know why this explicit cast is necessary
-        CurrentPhase.Update((TPhaseManager)this, deltaTime);
+        CurrentPhase.Update(this, deltaTime);
     }
 
     public virtual void Initialize(Battle<TBattleContext> battle)

@@ -1,12 +1,13 @@
 namespace Spearhead;
 
-public interface IBattlePhase<TBattleContext, TPhase, TPhaseManager>
-    where TPhaseManager : IPhaseManager<TBattleContext, TPhase, TPhaseManager>
-    where TPhase : IBattlePhase<TBattleContext, TPhase, TPhaseManager>
+public interface IBattlePhase<TBattleContext, TPhase>
+    //where TPhaseManager : IPhaseManager<TBattleContext, TPhase>
+    where TPhase : IBattlePhase<TBattleContext, TPhase>
 {
-    void BeginPhase(TPhaseManager phaseManager, double deltaTime);
+    void BeginPhase(IPhaseManager<TBattleContext, TPhase> phaseManager, double deltaTime);
 
-    void Update(TPhaseManager phaseManager, double deltaTime);
+    void Update(IPhaseManager<TBattleContext, TPhase> phaseManager, double deltaTime);
 
-    void EndPhase(TPhaseManager phaseManager,double deltaTime);
+    void EndPhase(IPhaseManager<TBattleContext, TPhase> phaseManager,double deltaTime);
 }
+

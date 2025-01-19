@@ -5,12 +5,11 @@ namespace Spearhead;
 /// A -> B -> C -> A -> B -> C, etc.
 /// </summary>
 /// <typeparam name="TBattleContext">The context in which a battle takes place</typeparam>
-public class RoundRobinPhaseManagerBase<TBattleContext, TPhase, TPhaseManager> : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
-    where TPhase : IBattlePhase<TBattleContext, TPhase, TPhaseManager>
-    where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
+public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<TBattleContext, TPhase>
+    where TPhase : IBattlePhase<TBattleContext, TPhase>
+    //where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
 {
     private readonly TPhase _endPhase;
-
     bool _startingBattle;
 
     int _currentPhaseIndex = 0;
@@ -26,7 +25,7 @@ public class RoundRobinPhaseManagerBase<TBattleContext, TPhase, TPhaseManager> :
 
     public override bool IsBattleOver => _currentPhase.Equals(_endPhase);
 
-    public RoundRobinPhaseManagerBase(TPhase startPhase, IList<TPhase> phaseList, TPhase endPhase)
+    public RoundRobinPhaseManager(TPhase startPhase, IList<TPhase> phaseList, TPhase endPhase)
     {
         _phaseList = phaseList;
         _currentPhase = startPhase ?? phaseList[0];
@@ -53,13 +52,5 @@ public class RoundRobinPhaseManagerBase<TBattleContext, TPhase, TPhaseManager> :
     public override void EndBattle()
     {
         _currentPhase = _endPhase;
-    }
-}
-
-public class RoundRobinPhaseManager<TBattleContext, TPhase> : RoundRobinPhaseManagerBase<TBattleContext, TPhase, RoundRobinPhaseManager<TBattleContext, TPhase>>
-    where TPhase : IBattlePhase<TBattleContext, TPhase, RoundRobinPhaseManager<TBattleContext, TPhase>>
-{
-    public RoundRobinPhaseManager(TPhase startPhase, IList<TPhase> phaseList, TPhase endPhase) : base(startPhase, phaseList, endPhase)
-    {
     }
 }
