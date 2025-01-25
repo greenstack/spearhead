@@ -7,10 +7,19 @@ namespace Spearhead;
 public class Battle<TContext>
 {
     private readonly TContext _context;
+    /// <summary>
+    /// The context this battle occurs in.
+    /// </summary>
     public TContext Context => _context;
 
     private readonly IPhaseManager<TContext> _phaseManager;
     private readonly IActionManager _actionManager;
+
+    private readonly IEventManager _eventManager;
+    /// <summary>
+    /// This batttle's event manager.
+    /// </summary>
+    public IEventManager EventManager => _eventManager;
 
     /// <summary>
     /// Creates a new battle using a custom action manager.
@@ -18,11 +27,13 @@ public class Battle<TContext>
     /// <param name="context">The context in which this battle takes place.</param>
     /// <param name="actionManager">The action manager responsible for handling your actions.</param>
     /// <param name="phaseManager">The phase manager responsible for handling your phases.</param>
-    public Battle(TContext context, IActionManager actionManager, IPhaseManager<TContext> phaseManager)
+    /// <param name="eventManager">The event manager.</param>
+    public Battle(TContext context, IActionManager actionManager, IPhaseManager<TContext> phaseManager, IEventManager eventManager)
     {
         _context = context;
         _actionManager = actionManager;
         _phaseManager = phaseManager;
+        _eventManager = eventManager;
     }
 
     /// <summary>
@@ -30,7 +41,7 @@ public class Battle<TContext>
     /// </summary>
     /// <param name="context">The context in which this battle is taking place.</param>
     /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public Battle(TContext context, IPhaseManager<TContext> phaseManager) : this(context, new ActionManager(), phaseManager) {}
+    public Battle(TContext context, IPhaseManager<TContext> phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
 
     /// <summary>
     /// Updates the battlefield.<br/><br/>If the action manager isn't processing an action, then the phase manager will be updated instead.

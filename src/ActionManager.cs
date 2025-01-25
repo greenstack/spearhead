@@ -8,7 +8,7 @@ public class ActionManager : IActionManager
     readonly Stack<IBattleAction> _activeActions = new();
     readonly Queue<IBattleAction> _pendingActions = new();
 
-    public IBattleAction? CurrentAction => _activeActions.TryPeek(out var action) ? action : null;
+    public IBattleAction CurrentAction => _activeActions.TryPeek(out var action) ? action : null;
 
     public event ActionEvent? OnActionComplete;
     public event ActionEvent? OnActionBegun;
