@@ -8,7 +8,7 @@ public class ActionManager : IActionManager
     readonly Stack<IBattleAction> _activeActions = new();
     readonly Queue<IBattleAction> _pendingActions = new();
 
-    public IBattleAction CurrentAction => _activeActions.TryPeek(out var action) ? action : null;
+    public IBattleAction? CurrentAction => _activeActions.TryPeek(out var action) ? action : null;
 
     public event ActionEvent? OnActionComplete;
     public event ActionEvent? OnActionBegun;
@@ -33,7 +33,10 @@ public class ActionManager : IActionManager
 
     public void Update(double deltaTime)
     {
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        // This won't be null because of the way the default action manager decides to process actions or not.
         var processResult = CurrentAction.Process(deltaTime);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         if (processResult != ActionStatus.Running)
         {
             // The action has completed execution. Time to move on to the next.

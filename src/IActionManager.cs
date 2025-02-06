@@ -16,7 +16,7 @@ public interface IActionManager
     /// <summary>
     /// The action currently being processed.
     /// </summary>
-    IBattleAction CurrentAction { get; }
+    IBattleAction? CurrentAction { get; }
 
     /// <summary>
     /// Triggered when an action's processing is completed.
