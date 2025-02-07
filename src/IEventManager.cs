@@ -1,5 +1,8 @@
 namespace Spearhead;
 
+/// <summary>
+/// Manages all the events of the game.
+/// </summary>
 public interface IEventManager
 {
     void RegisterEvent<T>(IEventDispatcher dispatcher) where T : IBattleEvent;

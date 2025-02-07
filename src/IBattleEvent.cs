@@ -3,10 +3,16 @@ namespace Spearhead;
 /// <summary>
 /// Represents an event that happened in battle.
 /// </summary>
-public interface IBattleEvent
+public interface IBattleEvent : IBattleAction
 {
     /// <summary>
-    /// Should this event be recorded as the result of an action?
+    /// How many reactions remain to be processed?
     /// </summary>
-    bool ShouldRecord { get; }
+    int ReactionsRemaining { get; }
+
+    /// <summary>
+    /// Events are the reaction, so they can't be reacted to.
+    /// </summary>
+    sealed bool CanBeReactedTo => false;
 }
+
