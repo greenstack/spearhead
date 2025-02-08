@@ -14,6 +14,7 @@ public class Battle<TContext>
 
     private readonly IPhaseManager<TContext> _phaseManager;
     private readonly IActionManager _actionManager;
+    public IActionManager ActionManager => _actionManager;
 
     private readonly IEventManager _eventManager;
     /// <summary>
@@ -34,6 +35,7 @@ public class Battle<TContext>
         _actionManager = actionManager;
         _phaseManager = phaseManager;
         _eventManager = eventManager;
+        _phaseManager.Initialize(this);
     }
 
     /// <summary>
