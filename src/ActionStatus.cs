@@ -14,4 +14,8 @@ public enum ActionStatus
     /// The action was cancelled for some reason.
     /// </summary>
     Aborted,
+    /// <summary>
+    /// The action was invalid and not performed.
+    /// </summary>
+    Invalid,
 }
