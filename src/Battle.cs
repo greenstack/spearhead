@@ -13,6 +13,7 @@ public class Battle<TContext>
     public TContext Context => _context;
 
     private readonly IPhaseManager<TContext> _phaseManager;
+    public IPhaseManager<TContext> PhaseManager => _phaseManager;
     private readonly IActionManager _actionManager;
     public IActionManager ActionManager => _actionManager;
 
