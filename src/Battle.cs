@@ -4,7 +4,7 @@ namespace Spearhead;
 /// Manages the update logic for a battle.
 /// </summary>
 /// <typeparam name="TContext">The type that provides context to the battle. This can be whatever you need it to be - a grid, etc.</typeparam>
-public class Battle<TContext>
+public class Battle<TContext> : IBattle
 {
     private readonly TContext _context;
     /// <summary>
