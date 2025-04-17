@@ -6,8 +6,7 @@ namespace Spearhead;
 /// </summary>
 /// <typeparam name="TBattleContext">The context in which a battle takes place</typeparam>
 public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<TBattleContext, TPhase>
-    where TPhase : IBattlePhase<TBattleContext, TPhase>
-    //where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
+    where TPhase : IBattlePhase
 {
     private readonly TPhase _endPhase;
     bool _startingBattle;
@@ -21,7 +20,7 @@ public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<T
     public IReadOnlyList<TPhase> Phases => _phaseList.AsReadOnly();
     private TPhase _currentPhase;
 
-    public override TPhase CurrentPhase => _currentPhase;
+    public override IBattlePhase CurrentPhase => _currentPhase;
 
     public override bool IsBattleOver => _currentPhase.Equals(_endPhase);
 

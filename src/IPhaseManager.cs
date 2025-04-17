@@ -2,6 +2,8 @@ namespace Spearhead;
 
 public interface IPhaseManager
 {
+    IBattlePhase CurrentPhase { get; }
+
     /// <summary>
     /// Has the battle ended?
     /// </summary>
@@ -16,28 +18,25 @@ public interface IPhaseManager
     /// Immediately ends the battle.
     /// </summary>
     void EndBattle();
-}
-
-public interface IPhaseManager<TBattleContext> : IPhaseManager
-{
-    void Update(Battle<TBattleContext> battle, double deltaTime);
 
     /// <summary>
     /// Initializes this phase manager with the battle.
     /// </summary>
     /// <param name="battle">The battle to initialize with.</param>
-    void Initialize(Battle<TBattleContext> battle);
+    void Initialize(IBattle battle);
+
+    void Update(float deltaTime);
 }
 
 /// <summary>
 /// An interface for phase managers in battles.
 /// </summary>
 /// <typeparam name="TBattleContext"></typeparam>
-public interface IPhaseManager<TBattleContext, TPhase> : IPhaseManager<TBattleContext>
-    where TPhase : IBattlePhase<TBattleContext, TPhase>
+public interface IPhaseManager<TPhase> : IPhaseManager
+    where TPhase : IBattlePhase
 {
     /// <summary>
     /// Retrieves the battle's current phase.
     /// </summary>
-    TPhase CurrentPhase { get; }
+    new TPhase CurrentPhase { get; }
 }

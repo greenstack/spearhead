@@ -12,8 +12,8 @@ public class Battle<TContext> : IBattle
     /// </summary>
     public TContext Context => _context;
 
-    private readonly IPhaseManager<TContext> _phaseManager;
-    public IPhaseManager<TContext> PhaseManager => _phaseManager;
+    private readonly IPhaseManager _phaseManager;
+    public IPhaseManager PhaseManager => _phaseManager;
     private readonly IActionManager _actionManager;
     public IActionManager ActionManager => _actionManager;
 
@@ -30,7 +30,7 @@ public class Battle<TContext> : IBattle
     /// <param name="actionManager">The action manager responsible for handling your actions.</param>
     /// <param name="phaseManager">The phase manager responsible for handling your phases.</param>
     /// <param name="eventManager">The event manager.</param>
-    public Battle(TContext context, IActionManager actionManager, IPhaseManager<TContext> phaseManager, IEventManager eventManager)
+    public Battle(TContext context, IActionManager actionManager, IPhaseManager phaseManager, IEventManager eventManager)
     {
         _context = context;
         _actionManager = actionManager;
@@ -44,7 +44,7 @@ public class Battle<TContext> : IBattle
     /// </summary>
     /// <param name="context">The context in which this battle is taking place.</param>
     /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public Battle(TContext context, IPhaseManager<TContext> phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
+    public Battle(TContext context, IPhaseManager phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
 
     /// <summary>
     /// Updates the battlefield.<br/><br/>If the action manager isn't processing an action, then the phase manager will be updated instead.
@@ -55,6 +55,6 @@ public class Battle<TContext> : IBattle
         if (_actionManager.IsActive)
             _actionManager.Update(deltaTime);
         else
-            _phaseManager.Update(this, deltaTime);
+            _phaseManager.Update((float)deltaTime);
     }
 }
