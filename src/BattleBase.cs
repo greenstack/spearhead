@@ -4,7 +4,7 @@ namespace Spearhead;
 /// Manages the update logic for a battle.
 /// </summary>
 /// <typeparam name="TContext">The type that provides context to the battle. This can be whatever you need it to be - a grid, etc.</typeparam>
-public class Battle<TContext> : IBattle
+public abstract class BattleBase<TContext> : IBattle
 {
     private readonly TContext _context;
     /// <summary>
@@ -30,7 +30,7 @@ public class Battle<TContext> : IBattle
     /// <param name="actionManager">The action manager responsible for handling your actions.</param>
     /// <param name="phaseManager">The phase manager responsible for handling your phases.</param>
     /// <param name="eventManager">The event manager.</param>
-    public Battle(TContext context, IActionManager actionManager, IPhaseManager phaseManager, IEventManager eventManager)
+    public BattleBase(TContext context, IActionManager actionManager, IPhaseManager phaseManager, IEventManager eventManager)
     {
         _context = context;
         _actionManager = actionManager;
@@ -39,22 +39,21 @@ public class Battle<TContext> : IBattle
         _phaseManager.Initialize(this);
     }
 
+    public virtual void Update(float deltaTime)
+    {
+        _phaseManager.Update(deltaTime);
+    }
+
     /// <summary>
     /// Creates a new Battle using the default ActionManager class.
     /// </summary>
     /// <param name="context">The context in which this battle is taking place.</param>
     /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public Battle(TContext context, IPhaseManager phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
+    public BattleBase(TContext context, IPhaseManager phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
 
-    /// <summary>
-    /// Updates the battlefield.<br/><br/>If the action manager isn't processing an action, then the phase manager will be updated instead.
-    /// </summary>
-    /// <param name="deltaTime">The time elapsed since last frame.</param>
-    public void Update(double deltaTime)
-    {
-        if (_actionManager.IsActive)
-            _actionManager.Update(deltaTime);
-        else
-            _phaseManager.Update((float)deltaTime);
-    }
+    public void RequestPendingAction(IBattleAction action)
+        => ActionManager.RequestPendingAction(action);
+
+    public void RequestImmediateAction(IBattleAction action)
+        => ActionManager.RequestPendingAction(action);
 }
