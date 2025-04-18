@@ -30,12 +30,6 @@ public interface IActionManager
     bool IsActive => CurrentAction != null;
 
     /// <summary>
-    /// Updates the current action.
-    /// </summary>
-    /// <param name="deltaTime"></param>
-    void Update(double deltaTime);
-
-    /// <summary>
     /// Requests an action to be performed.
     /// </summary>
     /// <param name="action">The action to request.</param>

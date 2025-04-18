@@ -49,7 +49,7 @@ public abstract class BattleBase<TContext> : IBattle
     /// </summary>
     /// <param name="context">The context in which this battle is taking place.</param>
     /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public BattleBase(TContext context, IPhaseManager phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
+    public BattleBase(TContext context, IPhaseManager phaseManager) : this(context, new ContinuousActionManager(), phaseManager, new EventManager()) {}
 
     public void RequestPendingAction(IBattleAction action)
         => ActionManager.RequestPendingAction(action);

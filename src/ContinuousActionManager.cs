@@ -3,7 +3,7 @@ namespace Spearhead;
 /// <summary>
 /// Base class for managing actions.
 /// </summary>
-public class ActionManager : IActionManager
+public class ContinuousActionManager : IActionManager, IEvaluateContinuously
 {
     readonly Stack<IBattleAction> _activeActions = new();
     readonly Queue<IBattleAction> _pendingActions = new();
@@ -27,7 +27,7 @@ public class ActionManager : IActionManager
 
     public void RequestImmediateAction(IBattleAction action) => PushAction(action);
 
-    public void Update(double deltaTime)
+    public void Evaluate(float deltaTime)
     {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         // This won't be null because of the way the default action manager decides to process actions or not.
