@@ -25,18 +25,9 @@ public interface IPhaseManager
     /// <param name="battle">The battle to initialize with.</param>
     void Initialize(IBattle battle);
 
-    void Update(float deltaTime);
-}
-
-/// <summary>
-/// An interface for phase managers in battles.
-/// </summary>
-/// <typeparam name="TBattleContext"></typeparam>
-public interface IPhaseManager<TPhase> : IPhaseManager
-    where TPhase : IBattlePhase
-{
     /// <summary>
-    /// Retrieves the battle's current phase.
+    /// Updates this phase.
     /// </summary>
-    new TPhase CurrentPhase { get; }
+    /// <param name="deltaTime">The amount of time elapsed since the last frame.</param>
+    void Update(float deltaTime);
 }
