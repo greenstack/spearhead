@@ -3,8 +3,11 @@ namespace Spearhead;
 public interface IBattle
 {
     IActionManager ActionManager { get; }
+}
 
-    void RequestPendingAction(IBattleAction action);
+public interface IBattle<TBattleAction> : IBattle where TBattleAction : IBattleAction
+{
+    void RequestPendingAction(TBattleAction action);
 
-    void RequestImmediateAction(IBattleAction action);
+    void RequestImmediateAction(TBattleAction action);
 }

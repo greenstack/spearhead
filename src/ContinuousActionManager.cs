@@ -3,17 +3,19 @@ namespace Spearhead;
 /// <summary>
 /// Base class for managing actions.
 /// </summary>
-public class ContinuousActionManager : IActionManager, IEvaluateContinuously
+public class ContinuousActionManager : IActionManager<IContinuousAction>, IEvaluateContinuously
 {
-    readonly Stack<IBattleAction> _activeActions = new();
-    readonly Queue<IBattleAction> _pendingActions = new();
+    readonly Stack<IContinuousAction> _activeActions = new();
+    readonly Queue<IContinuousAction> _pendingActions = new();
 
-    public IBattleAction? CurrentAction => _activeActions.TryPeek(out var action) ? action : null;
+    private IContinuousAction? _currentAction => _activeActions.TryPeek(out var action) ? action : null;
+    public IBattleAction? CurrentAction => _currentAction;
+    public bool IsActive => CurrentAction != null;
 
     public event ActionEvent? OnActionComplete;
     public event ActionEvent? OnActionBegun;
 
-    public void RequestPendingAction(IBattleAction action)
+    public void RequestPendingAction(IContinuousAction action)
     {
         if (_activeActions.Count > 0)
         {
@@ -25,13 +27,13 @@ public class ContinuousActionManager : IActionManager, IEvaluateContinuously
         }
     }
 
-    public void RequestImmediateAction(IBattleAction action) => PushAction(action);
+    public void RequestImmediateAction(IContinuousAction action) => PushAction(action);
 
     public void Evaluate(float deltaTime)
     {
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         // This won't be null because of the way the default action manager decides to process actions or not.
-        var processResult = CurrentAction.Process(deltaTime);
+        var processResult = _currentAction.Process(deltaTime);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         if (processResult != ActionStatus.Running)
         {
@@ -40,14 +42,14 @@ public class ContinuousActionManager : IActionManager, IEvaluateContinuously
             if (oldAction.CanCompletionBeReactedTo)
                 OnActionComplete?.Invoke(this, new ActionCompleteArgs(oldAction, processResult));
             // We only 
-            if (_activeActions.Count == 0 && _pendingActions.TryDequeue(out IBattleAction? nextAction))
+            if (_activeActions.Count == 0 && _pendingActions.TryDequeue(out IContinuousAction? nextAction))
             {
                 RequestImmediateAction(nextAction);
             }
         }
     }
 
-    private void PushAction(IBattleAction action)
+    private void PushAction(IContinuousAction action)
     {
         _activeActions.Push(action);
         if (action.CanBeginningBeReactedTo)

@@ -4,7 +4,7 @@ namespace Spearhead;
 /// Manages the update logic for a battle.
 /// </summary>
 /// <typeparam name="TContext">The type that provides context to the battle. This can be whatever you need it to be - a grid, etc.</typeparam>
-public abstract class BattleBase<TContext> : IBattle
+public abstract class BattleBase<TContext, TBattleAction> : IBattle<TBattleAction> where TBattleAction : IBattleAction
 {
     private readonly TContext _context;
     /// <summary>
@@ -14,7 +14,7 @@ public abstract class BattleBase<TContext> : IBattle
 
     private readonly IPhaseManager _phaseManager;
     public IPhaseManager PhaseManager => _phaseManager;
-    private readonly IActionManager _actionManager;
+    private readonly IActionManager<TBattleAction> _actionManager;
     public IActionManager ActionManager => _actionManager;
 
     private readonly IEventManager _eventManager;
@@ -30,7 +30,7 @@ public abstract class BattleBase<TContext> : IBattle
     /// <param name="actionManager">The action manager responsible for handling your actions.</param>
     /// <param name="phaseManager">The phase manager responsible for handling your phases.</param>
     /// <param name="eventManager">The event manager.</param>
-    public BattleBase(TContext context, IActionManager actionManager, IPhaseManager phaseManager, IEventManager eventManager)
+    public BattleBase(TContext context, IActionManager<TBattleAction> actionManager, IPhaseManager phaseManager, IEventManager eventManager)
     {
         _context = context;
         _actionManager = actionManager;
@@ -44,16 +44,9 @@ public abstract class BattleBase<TContext> : IBattle
         _phaseManager.Update(deltaTime);
     }
 
-    /// <summary>
-    /// Creates a new Battle using the default ActionManager class.
-    /// </summary>
-    /// <param name="context">The context in which this battle is taking place.</param>
-    /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public BattleBase(TContext context, IPhaseManager phaseManager) : this(context, new ContinuousActionManager(), phaseManager, new EventManager()) {}
+    public void RequestPendingAction(TBattleAction action)
+        => _actionManager.RequestPendingAction(action);
 
-    public void RequestPendingAction(IBattleAction action)
-        => ActionManager.RequestPendingAction(action);
-
-    public void RequestImmediateAction(IBattleAction action)
-        => ActionManager.RequestPendingAction(action);
+    public void RequestImmediateAction(TBattleAction action)
+        => _actionManager.RequestPendingAction(action);
 }

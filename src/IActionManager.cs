@@ -25,19 +25,24 @@ public interface IActionManager
     event ActionEvent OnActionBegun;
 
     /// <summary>
-    /// Is there an action currently being processed?
+    /// Is there an action currently being processed?<br/>
+    /// TODO: Check if this is really necessary or should only be in Continuous
+    /// objects.
     /// </summary>
-    bool IsActive => CurrentAction != null;
+    public bool IsActive {get; }
+}
 
+public interface IActionManager<TBattleAction> : IActionManager where TBattleAction : IBattleAction
+{
     /// <summary>
     /// Requests an action to be performed.
     /// </summary>
     /// <param name="action">The action to request.</param>
-    void RequestPendingAction(IBattleAction action);
+    void RequestPendingAction(TBattleAction action);
 
     /// <summary>
     /// Requests an action for immediate processing.
     /// </summary>
     /// <param name="action">The action to process.</param>
-    void RequestImmediateAction(IBattleAction action);
+    void RequestImmediateAction(TBattleAction action);
 }
