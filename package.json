@@ -1,0 +1,13 @@
+{
+    "name": "com.greenstackj.spearhead",
+    "version": "0.1.0-alpha",
+    "description": "A library to assist in the development of turn-based games.",
+    "displayName": "Spearhead",
+    "author": "Greenstack",
+    "license": "MIT",
+    "keywords": [
+        "rpg",
+        "turn-based",
+        "turns"
+    ]
+}
