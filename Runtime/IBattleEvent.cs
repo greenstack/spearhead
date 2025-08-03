@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// Represents an event that happened in battle.
@@ -16,3 +20,6 @@ public interface IBattleEvent : IBattleAction
     sealed bool CanBeReactedTo => false;
 }
 
+#if UNITY_6000
+}
+#endif // UNITY

@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// Represents an action being performed by an entity
@@ -10,3 +14,7 @@ public interface IEntityBattleAction : IBattleAction
     /// </summary>
     IBattleEntity Actor { get; }
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

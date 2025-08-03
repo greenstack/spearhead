@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 public interface IPhaseManager
 {
@@ -41,3 +45,7 @@ public interface IPhaseManager<TBattleContext, TPhase> : IPhaseManager<TBattleCo
     /// </summary>
     TPhase CurrentPhase { get; }
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

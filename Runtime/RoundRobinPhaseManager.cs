@@ -1,4 +1,10 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+using System.Collections.Generic;
+
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// A default phase manager that runs turn phases in a round-robin order, i.e.
@@ -14,7 +20,7 @@ public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<T
 
     int _currentPhaseIndex = 0;
 
-    readonly IList<TPhase> _phaseList;
+    readonly List<TPhase> _phaseList;
     /// <summary>
     /// The phases managed by this phase manager
     /// </summary>
@@ -25,7 +31,7 @@ public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<T
 
     public override bool IsBattleOver => _currentPhase.Equals(_endPhase);
 
-    public RoundRobinPhaseManager(TPhase startPhase, IList<TPhase> phaseList, TPhase endPhase)
+    public RoundRobinPhaseManager(TPhase startPhase, List<TPhase> phaseList, TPhase endPhase)
     {
         _phaseList = phaseList;
         _currentPhase = startPhase ?? phaseList[0];
@@ -54,3 +60,7 @@ public class RoundRobinPhaseManager<TBattleContext, TPhase> : PhaseManagerBase<T
         _currentPhase = _endPhase;
     }
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

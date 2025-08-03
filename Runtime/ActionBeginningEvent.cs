@@ -1,4 +1,10 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+using System;
+
+namespace Spearhead {
+#endif // !UNITY
 
 public class ActionBeginningEvent : IBattleEvent
 {
@@ -13,3 +19,7 @@ public class ActionBeginningEvent : IBattleEvent
         throw new NotImplementedException();
     }
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// Manages the phases of a battle.
@@ -26,3 +30,7 @@ public abstract class PhaseManagerBase<TBattleContext, TPhase> : IPhaseManager<T
 
     public abstract void EndBattle();
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

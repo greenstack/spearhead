@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// Manages the update logic for a battle.
@@ -44,7 +48,7 @@ public class Battle<TContext> : IBattle
     /// </summary>
     /// <param name="context">The context in which this battle is taking place.</param>
     /// <param name="phaseManager">The manager for your battle's phases.</param>
-    public Battle(TContext context, IPhaseManager<TContext> phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) {}
+    public Battle(TContext context, IPhaseManager<TContext> phaseManager) : this(context, new ActionManager(), phaseManager, new EventManager()) { }
 
     /// <summary>
     /// Updates the battlefield.<br/><br/>If the action manager isn't processing an action, then the phase manager will be updated instead.
@@ -58,3 +62,7 @@ public class Battle<TContext> : IBattle
             _phaseManager.Update(this, deltaTime);
     }
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

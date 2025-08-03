@@ -1,9 +1,21 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+#nullable enable
 
-public class ActionCompleteArgs(IBattleAction action, ActionStatus result)
+namespace Spearhead {
+#endif // !UNITY
+
+public class ActionCompleteArgs
 {
-    public readonly ActionStatus Result = result;
-    public readonly IBattleAction Action = action;
+    public ActionCompleteArgs(IBattleAction action, ActionStatus result)
+    {
+        Result = result;
+        Action = action;    
+    }
+
+    public readonly ActionStatus Result;
+    public readonly IBattleAction Action;
 }
 
 public delegate void ActionEvent(IActionManager actionManager, ActionCompleteArgs context);
@@ -47,3 +59,7 @@ public interface IActionManager
     /// <param name="action">The action to process.</param>
     void RequestImmediateAction(IBattleAction action);
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

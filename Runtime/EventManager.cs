@@ -1,16 +1,28 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+using System;
+using System.Collections.Generic;
 
-public class EventManager : IEventManager
+namespace Spearhead
 {
-    private readonly Dictionary<Type, IEventDispatcher> _dispatchers = [];
+#endif // !UNITY
 
-    public void RaiseEvent<T>(T battleEvent) where T : IBattleEvent
+    public class EventManager : IEventManager
     {
-        _dispatchers[typeof(T)].Dispatch(battleEvent);
+        private readonly Dictionary<Type, IEventDispatcher> _dispatchers = new();
+
+        public void RaiseEvent<T>(T battleEvent) where T : IBattleEvent
+        {
+            _dispatchers[typeof(T)].Dispatch(battleEvent);
+        }
+
+        public void RegisterEvent<T>(IEventDispatcher dispatcher) where T : IBattleEvent
+        {
+            _dispatchers.Add(typeof(T), dispatcher);
+        }
     }
 
-    public void RegisterEvent<T>(IEventDispatcher dispatcher) where T : IBattleEvent
-    {
-        _dispatchers.Add(typeof(T), dispatcher);
-    }
+#if UNITY_6000
 }
+#endif // UNITY

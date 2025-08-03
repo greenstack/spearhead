@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// Manages all the events of the game.
@@ -13,3 +17,7 @@ public interface IEventManager
     /// <typeparam name="T"></typeparam>
     void RaiseEvent<T>(T battleEvent) where T : IBattleEvent;
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

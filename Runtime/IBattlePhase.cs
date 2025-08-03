@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 public interface IBattlePhase<TBattleContext, TPhase>
     //where TPhaseManager : IPhaseManager<TBattleContext, TPhase>
@@ -11,3 +15,6 @@ public interface IBattlePhase<TBattleContext, TPhase>
     void EndPhase(IPhaseManager<TBattleContext, TPhase> phaseManager,double deltaTime);
 }
 
+#if UNITY_6000
+}
+#endif // UNITY

@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 /// <summary>
 /// A basic interface for all battle actions.
@@ -19,3 +23,7 @@ public interface IBattleAction
 
     bool CanCompletionBeReactedTo { get; }
 }
+
+#if UNITY_6000
+}
+#endif // UNITY

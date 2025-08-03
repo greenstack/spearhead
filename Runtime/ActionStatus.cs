@@ -1,4 +1,8 @@
+#if !UNITY_6000
 namespace Spearhead;
+#else
+namespace Spearhead {
+#endif // !UNITY
 
 public enum ActionStatus
 {
@@ -19,3 +23,7 @@ public enum ActionStatus
     /// </summary>
     Invalid,
 }
+
+#if UNITY_6000
+}
+#endif // UNITY
