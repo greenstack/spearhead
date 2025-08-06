@@ -1,14 +1,19 @@
-#if !UNITY_6000
+#if !UNITY_6000_0_OR_NEWER
 namespace Spearhead;
 #else
 namespace Spearhead {
+    using UnityEngine;
 #endif // !UNITY
 
-/// <summary>
-/// Manages the update logic for a battle.
-/// </summary>
-/// <typeparam name="TContext">The type that provides context to the battle. This can be whatever you need it to be - a grid, etc.</typeparam>
-public class Battle<TContext> : IBattle
+    /// <summary>
+    /// Manages the update logic for a battle.
+    /// </summary>
+    /// <typeparam name="TContext">The type that provides context to the battle. This can be whatever you need it to be - a grid, etc.</typeparam>
+public class Battle<TContext> :
+#if UNITY_6000_0_OR_NEWER
+    MonoBehaviour,
+#endif
+    IBattle
 {
     private readonly TContext _context;
     /// <summary>
@@ -53,9 +58,15 @@ public class Battle<TContext> : IBattle
     /// <summary>
     /// Updates the battlefield.<br/><br/>If the action manager isn't processing an action, then the phase manager will be updated instead.
     /// </summary>
+#if !UNITY_6000_0_OR_NEWER
     /// <param name="deltaTime">The time elapsed since last frame.</param>
     public void Update(double deltaTime)
     {
+#else
+    public void Update()
+    {
+        double deltaTime = Time.deltaTime;
+#endif
         if (_actionManager.IsActive)
             _actionManager.Update(deltaTime);
         else
@@ -63,6 +74,6 @@ public class Battle<TContext> : IBattle
     }
 }
 
-#if UNITY_6000
+#if UNITY_6000_0_OR_NEWER
 }
 #endif // UNITY
