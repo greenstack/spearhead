@@ -1,65 +1,58 @@
-#if !UNITY_6000
-namespace Spearhead;
-#else
 #nullable enable
 
-namespace Spearhead {
-#endif // !UNITY
-
-public class ActionCompleteArgs
+namespace Spearhead
 {
-    public ActionCompleteArgs(IBattleAction action, ActionStatus result)
+    public class ActionCompleteArgs
     {
-        Result = result;
-        Action = action;    
+        public ActionCompleteArgs(IBattleAction action, ActionStatus result)
+        {
+            Result = result;
+            Action = action;
+        }
+
+        public readonly ActionStatus Result;
+        public readonly IBattleAction Action;
     }
 
-    public readonly ActionStatus Result;
-    public readonly IBattleAction Action;
+    public delegate void ActionEvent(IActionManager actionManager, ActionCompleteArgs context);
+
+    /// <summary>
+    /// Interface for managing battle actions.
+    /// </summary>
+    public interface IActionManager
+    {
+        /// <summary>
+        /// The action currently being processed.
+        /// </summary>
+        IBattleAction? CurrentAction { get; }
+
+        /// <summary>
+        /// Triggered when an action's processing is completed.
+        /// </summary>
+        event ActionEvent OnActionComplete;
+        event ActionEvent OnActionBegun;
+
+        /// <summary>
+        /// Is there an action currently being processed?
+        /// </summary>
+        bool IsActive => CurrentAction != null;
+
+        /// <summary>
+        /// Updates the current action.
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        void Update(double deltaTime);
+
+        /// <summary>
+        /// Requests an action to be performed.
+        /// </summary>
+        /// <param name="action">The action to request.</param>
+        void RequestPendingAction(IBattleAction action);
+
+        /// <summary>
+        /// Requests an action for immediate processing.
+        /// </summary>
+        /// <param name="action">The action to process.</param>
+        void RequestImmediateAction(IBattleAction action);
+    }
 }
-
-public delegate void ActionEvent(IActionManager actionManager, ActionCompleteArgs context);
-
-/// <summary>
-/// Interface for managing battle actions.
-/// </summary>
-public interface IActionManager
-{
-    /// <summary>
-    /// The action currently being processed.
-    /// </summary>
-    IBattleAction? CurrentAction { get; }
-
-    /// <summary>
-    /// Triggered when an action's processing is completed.
-    /// </summary>
-    event ActionEvent OnActionComplete;
-    event ActionEvent OnActionBegun;
-
-    /// <summary>
-    /// Is there an action currently being processed?
-    /// </summary>
-    bool IsActive => CurrentAction != null;
-
-    /// <summary>
-    /// Updates the current action.
-    /// </summary>
-    /// <param name="deltaTime"></param>
-    void Update(double deltaTime);
-
-    /// <summary>
-    /// Requests an action to be performed.
-    /// </summary>
-    /// <param name="action">The action to request.</param>
-    void RequestPendingAction(IBattleAction action);
-
-    /// <summary>
-    /// Requests an action for immediate processing.
-    /// </summary>
-    /// <param name="action">The action to process.</param>
-    void RequestImmediateAction(IBattleAction action);
-}
-
-#if UNITY_6000
-}
-#endif // UNITY

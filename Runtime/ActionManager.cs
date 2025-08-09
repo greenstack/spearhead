@@ -1,13 +1,8 @@
-#if !UNITY_6000
-namespace Spearhead;
-#else
 #nullable enable
 using System.Collections.Generic;
 
 namespace Spearhead
 {
-#endif // !UNITY
-
     /// <summary>
     /// Base class for managing actions.
     /// </summary>
@@ -62,7 +57,4 @@ namespace Spearhead
                 OnActionBegun?.Invoke(this, new ActionCompleteArgs(action, ActionStatus.Running));
         }
     }
-
-#if UNITY_6000
 }
-#endif // UNITY
