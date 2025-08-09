@@ -1,5 +1,7 @@
 #nullable enable
 
+using System.Collections;
+
 namespace Spearhead
 {
     public class ActionCompleteArgs
@@ -40,8 +42,7 @@ namespace Spearhead
         /// <summary>
         /// Updates the current action.
         /// </summary>
-        /// <param name="deltaTime"></param>
-        void Update(double deltaTime);
+        IEnumerator ProcessActions();
 
         /// <summary>
         /// Requests an action to be performed.

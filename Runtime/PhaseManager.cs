@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Spearhead
@@ -5,9 +6,8 @@ namespace Spearhead
     /// <summary>
     /// Manages the phases of a battle.
     /// </summary>
-    public abstract class PhaseManagerBase<TBattleContext, TPhase> : MonoBehaviour, IPhaseManager<TBattleContext, TPhase>
-        where TPhase : IBattlePhase<TBattleContext, TPhase>
-        //where TPhaseManager : PhaseManagerBase<TBattleContext, TPhase, TPhaseManager>
+    public abstract class PhaseManagerBase<TPhase> : MonoBehaviour, IPhaseManager<TPhase>
+        where TPhase : IBattlePhase<TPhase>
     {
         public abstract TPhase CurrentPhase { get; }
 
@@ -15,20 +15,10 @@ namespace Spearhead
 
         public abstract void AdvancePhase();
 
-        public virtual void Update(Battle<TBattleContext> battle, double deltaTime)
+        public virtual IEnumerator ProcessPhase()
         {
             // I don't know why this explicit cast is necessary
-            CurrentPhase.Update(this, deltaTime);
-        }
-
-        public virtual void Initialize(Battle<TBattleContext> battle)
-        {
-            // TODO: Hook up to the proper components
-        }
-
-        void Start()
-        {
-
+            yield return StartCoroutine(CurrentPhase.Run(this));
         }
 
         public abstract void EndBattle();

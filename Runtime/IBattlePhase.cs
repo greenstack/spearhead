@@ -1,13 +1,14 @@
+using System.Collections;
+
 namespace Spearhead
 {
-    public interface IBattlePhase<TBattleContext, TPhase>
-        //where TPhaseManager : IPhaseManager<TBattleContext, TPhase>
-        where TPhase : IBattlePhase<TBattleContext, TPhase>
+    public interface IBattlePhase<TPhase>
+        where TPhase : IBattlePhase<TPhase>
     {
-        void BeginPhase(IPhaseManager<TBattleContext, TPhase> phaseManager, double deltaTime);
+        void BeginPhase(IPhaseManager<TPhase> phaseManager, double deltaTime);
 
-        void Update(IPhaseManager<TBattleContext, TPhase> phaseManager, double deltaTime);
+        IEnumerator Run(IPhaseManager<TPhase> phaseManager);
 
-        void EndPhase(IPhaseManager<TBattleContext, TPhase> phaseManager, double deltaTime);
+        void EndPhase(IPhaseManager<TPhase> phaseManager, double deltaTime);
     }
 }

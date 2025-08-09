@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Spearhead
 {
     /// <summary>
@@ -8,9 +10,8 @@ namespace Spearhead
         /// <summary>
         /// Processes the action in real time.
         /// </summary>
-        /// <param name="deltaTime">The time elapsed since the last update.</param>
         /// <returns>The current status of the action.</returns>
-        ActionStatus Process(double deltaTime);
+        IEnumerator<ActionStatus> Process();
 
         /// <summary>
         /// Can this action be reacted to?

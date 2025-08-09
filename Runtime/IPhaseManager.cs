@@ -1,6 +1,7 @@
+using System.Collections;
+
 namespace Spearhead
 {
-
     public interface IPhaseManager
     {
         /// <summary>
@@ -13,29 +14,20 @@ namespace Spearhead
         /// </summary>
         void AdvancePhase();
 
+        IEnumerator ProcessPhase();
+
         /// <summary>
         /// Immediately ends the battle.
         /// </summary>
         void EndBattle();
     }
 
-    public interface IPhaseManager<TBattleContext> : IPhaseManager
-    {
-        void Update(Battle<TBattleContext> battle, double deltaTime);
-
-        /// <summary>
-        /// Initializes this phase manager with the battle.
-        /// </summary>
-        /// <param name="battle">The battle to initialize with.</param>
-        void Initialize(Battle<TBattleContext> battle);
-    }
-
     /// <summary>
     /// An interface for phase managers in battles.
     /// </summary>
-    /// <typeparam name="TBattleContext"></typeparam>
-    public interface IPhaseManager<TBattleContext, TPhase> : IPhaseManager<TBattleContext>
-        where TPhase : IBattlePhase<TBattleContext, TPhase>
+    /// <typeparam name="TPhase">The phase type managed by this phase manager.</typeparam>
+    public interface IPhaseManager<TPhase> : IPhaseManager
+        where TPhase : IBattlePhase<TPhase>
     {
         /// <summary>
         /// Retrieves the battle's current phase.
