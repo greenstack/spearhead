@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Spearhead {
     public class ActionBeginningEvent : IBattleEvent
@@ -9,7 +10,7 @@ namespace Spearhead {
 
         public bool CanCompletionBeReactedTo => throw new NotImplementedException();
 
-        public ActionStatus Process(double deltaTime)
+        public IEnumerator<ActionStatus> Process()
         {
             throw new NotImplementedException();
         }
