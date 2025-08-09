@@ -7,18 +7,19 @@ namespace Spearhead {
     /// Manages the update logic for a battle.
     /// </summary>
     /// <typeparam name="TContext">The type that provides context to the battle. This can be whatever you need it to be - a grid, etc.</typeparam>
-    
+    [RequireComponent(typeof(ActionManager))]
     public class Battle : MonoBehaviour, IBattle
     {
         private IPhaseManager _phaseManager;
         public IPhaseManager PhaseManager => _phaseManager;
+        [SerializeField]
         private IActionManager _actionManager;
         public IActionManager ActionManager => _actionManager;
 
         void Start()
         {
             _phaseManager = GetComponent<IPhaseManager>();
-            _actionManager = GetComponent<IActionManager>();
+            _actionManager ??= GetComponent<IActionManager>();
             StartCoroutine(RunBattle());
         }
 
