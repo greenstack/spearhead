@@ -25,12 +25,12 @@ namespace Spearhead {
 
         protected IEnumerator RunBattle()
         {
-            while (!PhaseManager.IsBattleOver)
+            do
             {
                 // TODO: yield return phase manager coroutine or the action manager
                 yield return StartCoroutine(_phaseManager.ProcessPhase());
                 yield return StartCoroutine(_actionManager.ProcessActions());
-            }
+            } while (!PhaseManager.IsBattleOver);
         }
     }
 }
